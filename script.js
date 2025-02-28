@@ -1,5 +1,5 @@
 // Karte erstellen und auf eine Stadt zentrieren
-var map = L.map('map').setView([52.5200, 13.4050], 13); // Berlin als Beispiel
+var map = L.map('map').setView([51.3370, 12.3344], 13); // Lindenauer Markt
 
 // OpenStreetMap Layer hinzufügen
 L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {

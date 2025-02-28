@@ -27,13 +27,13 @@ fetch('data/gebaeude.geojson')
                 };
             },
             onEachFeature: function (feature, layer) {
-                var props = feature.properties;
-                var popupContent = `
-                    <h3>Adresse: ${props.adresse}</h3>
-                    <p><strong>Baujahr:</strong> ${props.baujahr}</p>
-                `;
-                layer.bindPopup(popupContent);
-            }
+    		var props = feature.properties;
+   		 var popupContent = `
+        		<h3>Adresse: ${props.Adresse ? props.Adresse : "Unbekannt"}</h3>
+        		<p><strong>Baujahr:</strong> ${props.Baujahr ? props.Baujahr : "Unbekannt"}</p>
+    		`;
+    		layer.bindPopup(popupContent);
+		}
         }).addTo(map);
     })
     .catch(error => console.error('Fehler beim Laden der GeoJSON-Daten:', error));

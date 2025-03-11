@@ -29,9 +29,11 @@ fetch('data/gebaeude.geojson')
             },
             onEachFeature: function (feature, layer) {
                 var props = feature.properties;
+                var gebaeudeID = props.ID;
                 var popupContent = `
                     <h3>${props.Adresse ? props.Adresse : "Unbekannt"}</h3>
                     <p><strong>Baujahr:</strong> ${props.Baujahr ? props.Baujahr : "Unbekannt"}</p>
+                    <a href="ID-${gebaeudeID}.html" target="_blank">Mehr erfahren</a>
                 `;
                 layer.bindPopup(popupContent);
             }

@@ -3,14 +3,94 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Historische Gebäude</title>
-    <link rel="stylesheet" href="style.css">
-    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css"/>
+    <title>Historische Gebäude - Karte</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+        }
+        #map {
+            height: 80vh;
+            width: 80%;
+            margin: auto;
+            border: 2px solid #333;
+            border-radius: 10px;
+        }
+        #search-container {
+            margin: 20px auto;
+            width: 50%;
+            position: relative;
+        }
+        #search-input {
+            width: 100%;
+            padding: 10px;
+            font-size: 16px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        #suggestions {
+            background: white;
+            border: 1px solid #ccc;
+            border-top: none;
+            max-height: 200px;
+            overflow-y: auto;
+            position: absolute;
+            width: 100%;
+            z-index: 1000;
+        }
+        .suggestion {
+            padding: 10px;
+            cursor: pointer;
+        }
+        .suggestion:hover {
+            background: #f4f4f4;
+        }
+    </style>
+    <script>
+        let gebaeudeDaten = [];
+        
+        document.addEventListener("DOMContentLoaded", () => {
+            fetch('data/gebaeude.geojson')
+                .then(response => response.json())
+                .then(data => {
+                    gebaeudeDaten = data.features.map(f => ({
+                        adresse: f.properties.Adresse,
+                        link: `ID-${f.properties.ID}.html`
+                    }));
+                });
+        });
+        
+        function searchBuildings() {
+            const input = document.getElementById("search-input").value.toLowerCase();
+            const suggestionsBox = document.getElementById("suggestions");
+            suggestionsBox.innerHTML = "";
+
+            if (input.length < 2) return;
+
+            let matches = gebaeudeDaten.filter(g =>
+                g.adresse.toLowerCase().includes(input)
+            );
+
+            matches.forEach(match => {
+                let div = document.createElement("div");
+                div.classList.add("suggestion");
+                div.textContent = match.adresse;
+                div.onclick = () => window.location.href = match.link;
+                suggestionsBox.appendChild(div);
+            });
+        }
+    </script>
 </head>
 <body>
     <h1>Interaktive Karte Historischer Gebäude</h1>
+    
+    <div id="search-container">
+        <input type="text" id="search-input" placeholder="Adresse suchen..." onkeyup="searchBuildings()">
+        <div id="suggestions"></div>
+    </div>
+    
     <div id="map"></div>
-
+    
     <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
     <script src="script.js"></script>
 </body>

@@ -45,12 +45,24 @@ fetch('data/gebaeude.geojson')
         }).addTo(map);
     
         // Suche nach Adresse
-        document.getElementById('search-button').addEventListener('click', function() {
-            var query = document.getElementById('search-input').value.toLowerCase();
+        var searchInput = document.getElementById('search-input');
+        var resultsContainer = document.getElementById('search-results');
+
+        searchInput.addEventListener('input', function() {
+            var query = searchInput.value.toLowerCase();
             var results = data.features.filter(function(feature) {
                 return feature.properties.Adresse.toLowerCase().includes(query);
             });
-            displaySearchResults(results);
+            displaySearchSuggestions(results);
+        });
+
+        // Klick-Event für Vorschläge
+        resultsContainer.addEventListener('click', function(event) {
+            if (event.target.tagName === 'A') {
+                event.preventDefault();
+                var href = event.target.getAttribute('href');
+                window.location.href = href;
+            }
         });
     })
     .catch(error => console.error('Fehler beim Laden der GeoJSON-Daten:', error));

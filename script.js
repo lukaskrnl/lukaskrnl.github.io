@@ -6,9 +6,10 @@ L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
     attribution: '&copy; OpenStreetMap contributors'
 }).addTo(map);
 
-setTimeout(() => {
-    map.invalidateSize();
-}, 500);
+// Überprüfen, ob die Karte korrekt initialisiert wird
+map.on('load', function() {
+    console.log('Karte erfolgreich geladen');
+});
 
 // Funktion zur Farbzuweisung basierend auf dem Baujahr
 function getColor(baujahr) {

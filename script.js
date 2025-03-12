@@ -43,5 +43,35 @@ fetch('data/gebaeude.geojson')
                 layer.bindPopup(popupContent);
             }
         }).addTo(map);
+    
+        // Suche nach Adresse
+        document.getElementById('search-button').addEventListener('click', function() {
+            var query = document.getElementById('search-input').value.toLowerCase();
+            var results = data.features.filter(function(feature) {
+                return feature.properties.Adresse.toLowerCase().includes(query);
+            });
+            displaySearchResults(results);
+        });
     })
     .catch(error => console.error('Fehler beim Laden der GeoJSON-Daten:', error));
+
+// Funktion zum Anzeigen der Suchergebnisse
+function displaySearchResults(results) {
+    var resultsContainer = document.getElementById('search-results');
+    resultsContainer.innerHTML = '';
+    if (results.length === 0) {
+        resultsContainer.innerHTML = '<p>Keine Ergebnisse gefunden.</p>';
+    } else {
+        results.forEach(function(result) {
+            var props = result.properties;
+            var gebaeudeID = props.ID;
+            var resultItem = document.createElement('div');
+            resultItem.innerHTML = `
+                <h3>${props.Adresse}</h3>
+                <p><strong>Baujahr:</strong> ${props.Baujahr}</p>
+                <a href="ID-${gebaudeID}.html" target="_blank">Mehr erfahren</a>
+            `;
+            resultsContainer.appendChild(resultItem);
+        });
+    }
+}

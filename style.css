@@ -4,10 +4,12 @@ body {
 }
 
 #map {
-    height: 500px; /* Statt 80vh, um Probleme mit flexibler Höhe zu vermeiden */
-    width: 100%;
-    max-width: 800px;
+    height: 80vh;
+    width: 80%;
     margin: auto;
     border: 2px solid #333;
     border-radius: 10px;
+}
+#search-container {
+    margin-top: 20px;
 }

@@ -6,6 +6,10 @@ L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
     attribution: '&copy; OpenStreetMap contributors'
 }).addTo(map);
 
+setTimeout(() => {
+    map.invalidateSize();
+}, 500);
+
 // Funktion zur Farbzuweisung basierend auf dem Baujahr
 function getColor(baujahr) {
     if (!baujahr || isNaN(baujahr)) return '#808080'; // Grau für fehlende Werte
